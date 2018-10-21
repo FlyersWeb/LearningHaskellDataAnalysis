@@ -4,6 +4,14 @@ module Main (main) where
     import Database.HDBC
     import Database.HDBC.Sqlite3
 
+    -- main = do
+    --     max <- applyToColumnInCSVFile (maximum . readColumn) "all_week.csv" "mag"
+    --     min <- applyToColumnInCSVFile (minimum . readColumn) "all_week.csv" "mag"
+    --     avg <- applyToColumnInCSVFile (average . readColumn) "all_week.csv" "mag"
+    --     print max
+    --     print min
+    --     print avg
+
     -- main = convertCSVFileToSql "all_week.csv" "earthquakes.sql" "oneWeek" [
     --     "time TEXT", "latitude REAL", "longitude REAL", 
     --     "depth REAL", "mag REAL", "magType REAL", "nst INTEGER", 
