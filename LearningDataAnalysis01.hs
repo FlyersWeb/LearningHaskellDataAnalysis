@@ -3,9 +3,6 @@ module LearningDataAnalysis01 where
     import Data.Either
     import Text.CSV
 
-    average :: (Real a, Fractional b) => [a] -> b
-    average xs = realToFrac(sum xs) / fromIntegral(length xs)
-
     readColumn :: [String] -> [Double]
     readColumn = map read
 
@@ -27,7 +24,7 @@ module LearningDataAnalysis01 where
             columnIndex
         where
             columnIndex = getColumnInCSV csv column
-            nFieldsInCsv = length $ head csv
+            nFieldsInCsv = numberColumnInCSV csv
             records = tail $ filter (\record -> nFieldsInCsv == length record) csv
             elements ci = map (\record -> genericIndex record ci) records
 
@@ -41,3 +38,16 @@ module LearningDataAnalysis01 where
             records
         where
             handleCSVError csv = Left "This does not appear to be a valid CSV"
+
+    countFieldsInEachRecord :: CSV -> [Integer]
+    countFieldsInEachRecord csv = map genericLength (init csv)
+
+    lineNumbersWithIncorrectCount :: CSV -> [(Integer, Integer)]
+    lineNumbersWithIncorrectCount(fields:csv) = filter
+      (\(_, thisCount) -> thisCount /= nfields)
+      lineNoCountPairs
+      where
+        nfields = genericLength fields
+        count = countFieldsInEachRecord csv
+        lineNoCountPairs = zip [1..] count
+
