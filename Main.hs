@@ -3,6 +3,7 @@ module Main (main) where
     import LearningDataAnalysis01
     import LearningDataAnalysis02
     import LearningDataAnalysis03
+    import LearningDataAnalysis04
     -- install: cabal install HDBC sqlite-simple HDBC-sqlite3
     import Database.HDBC
     import Database.HDBC.Sqlite3
@@ -57,12 +58,19 @@ module Main (main) where
     --   tmp <- identifyInCSVFile (\x -> x =~ "^\\s*$") "poorData.csv" "Number"
     --   print tmp
 
-    -- Application of invalid date search
+    -- -- Application of invalid date search
+    -- main :: IO()
+    -- main = do
+    --   tmp <- identifyInCSVFileFromColumn
+    --     (\x -> not (x =~ "^[1-9][0-9]?/[1-9][0-9]?/[12][0-9][0-9][0-9]$"))
+    --     "poorData.csv"
+    --     "Number"
+    --     "Birthday"
+    --   print tmp
+
+    -- Application of plot
     main :: IO()
     main = do
-      tmp <- identifyInCSVFileFromColumn
-        (\x -> not (x =~ "^[1-9][0-9]?/[1-9][0-9]?/[12][0-9][0-9][0-9]$"))
-        "poorData.csv"
-        "Number"
-        "Birthday"
-      print tmp
+      aapl <- pullStockClosingPrices "AAPL.sql" "aapl"
+      customPlot aapl "AAPL" "aapl.png"
+      print aapl
