@@ -4,6 +4,9 @@ module Main (main) where
     import LearningDataAnalysis02
     import LearningDataAnalysis03
     import LearningDataAnalysis04
+    import LearningDataAnalysis05
+
+    import Data.List
     -- install: cabal install HDBC sqlite-simple HDBC-sqlite3
     import Database.HDBC
     import Database.HDBC.Sqlite3
@@ -68,9 +71,31 @@ module Main (main) where
     --     "Birthday"
     --   print tmp
 
-    -- Application of plot
+    -- -- Application of plot closing prices
+    -- main :: IO()
+    -- main = do
+    --   aapl <- pullStockClosingPrices "AAPL.sql" "aapl"
+    --   plotData2D aapl "AAPL" "aapl.png"
+    --   print aapl
+
+    -- -- Application of plot coin flip null hypothesis
+    -- main :: IO()
+    -- main = do
+    --   plotFunction2D
+    --     (\k -> probabilityMassFunction (floor k) 1000 0.5)
+    --     0
+    --     1000
+    --     "Coin flip probabilities"
+    --     "coinflips.png"
+    --   print "Done"
+
+    -- Application of standard deviation for difference between runs home and away
     main :: IO()
     main = do
-      aapl <- pullStockClosingPrices "AAPL.sql" "aapl"
-      customPlot aapl "AAPL" "aapl.png"
-      print aapl
+      -- convertCSVFileToSql "winloss2014.csv" "winloss.sql" "winloss" ["date TEXT", "awayteam TEXT", "hometeam TEXT", "awayscore INTEGER", "homescore INTEGER"]
+      runsAtHome <- queryDatabase "winloss.sql" "SELECT hometeam, SUM(homescore) FROM winloss GROUP BY hometeam ORDER BY hometeam"
+      runsAway <- queryDatabase "winloss.sql" "SELECT awayteam, sum(awayscore) FROM winloss GROUP BY awayteam ORDER BY awayteam"
+      let runsHomeAway = zip (readDoubleColumn runsAtHome 1) (readDoubleColumn runsAway 1)
+      let runsHomeAwayDiff = map (\(a,b) -> a-b) runsHomeAway
+      let std = standardDeviation runsHomeAwayDiff / (sqrt $ genericLength runsHomeAwayDiff)
+      print std

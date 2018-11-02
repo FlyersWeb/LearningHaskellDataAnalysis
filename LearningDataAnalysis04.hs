@@ -31,6 +31,10 @@ module LearningDataAnalysis04 where
       (reverse $ readDoubleColumn sqlResult 0)
       (readDoubleColumn sqlResult 1)
 
-  customPlot :: [(Double, Double)] -> String -> String -> IO(Bool)
-  customPlot dataSerie title fileName = do
+  plotData2D :: [(Double, Double)] -> String -> String -> IO(Bool)
+  plotData2D dataSerie title fileName = do
     plot (PNG fileName) $ Data2D [Title title] [] $ dataSerie
+
+  plotFunction2D :: (Double -> Double) -> Double -> Double -> String -> String -> IO(Bool)
+  plotFunction2D funcSerie intervalLow intervalHigh title fileName = do
+    plot (PNG fileName) $ Function2D [Title title] [Range intervalLow intervalHigh] funcSerie
