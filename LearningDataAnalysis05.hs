@@ -22,7 +22,7 @@ module LearningDataAnalysis05 where
         xavg = average x
         yavg = average y
 
-  pearsonR :: [Double] -> [Double] -> [Double]
+  pearsonR :: [Double] -> [Double] -> Double
   pearsonR x y = r
       where
         xstd = standardDeviation x

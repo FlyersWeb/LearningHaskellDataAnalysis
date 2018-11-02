@@ -5,6 +5,7 @@ module Main (main) where
     import LearningDataAnalysis03
     import LearningDataAnalysis04
     import LearningDataAnalysis05
+    import LearningDataAnalysis06
 
     import Data.List
     -- install: cabal install HDBC sqlite-simple HDBC-sqlite3
